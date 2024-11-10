@@ -31,7 +31,7 @@ public class ReserveService implements IReserveService {
     @Override
     public ReserveDTO save(ReserveDTO reserveDTO) {
         //mapear nuestras entidades como DTO a mano
-        //instanciar una entidad de turno
+        //instanciar una entidad de reserva
         Reserve reserveEntity = new Reserve();
 
         //instanciar un paciente
@@ -42,11 +42,11 @@ public class ReserveService implements IReserveService {
         Product productEntity = new Product();
         productEntity.setId(reserveDTO.getProduct_id());
 
-        //seteamos el paciente y el producto a nuestra entidad turno
+        //seteamos el paciente y el producto a nuestra entidad reserva
         reserveEntity.setClient(clientEntity);
         reserveEntity.setProduct(productEntity);
 
-        //convertir el string del turnoDto que es la fecha a LocalDate
+        //convertir el string dla reservaDto que es la fecha a LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate date = LocalDate.parse(reserveDTO.getDate(), formatter);
 
@@ -57,7 +57,7 @@ public class ReserveService implements IReserveService {
         reserveRepository.save(reserveEntity);
 
         //vamos a trabajar con el DTO que debemos devolver
-        //generar una instancia de turno DTO
+        //generar una instancia de reserva DTO
         ReserveDTO reserveDTOToReturn = new ReserveDTO();
 
         //le seteamos los datos de la entidad que persistimos
@@ -82,7 +82,7 @@ public class ReserveService implements IReserveService {
             Reserve reserve = reserveToLookFor.get();
 
             //trabajar sobre la información que tenemos que devolver: dto
-            //vamos a crear una intancia de turno dto para devolver
+            //vamos a crear una intancia de reserva dto para devolver
             ReserveDTO reserveDTOToReturn = new ReserveDTO();
             reserveDTOToReturn.setId(reserve.getId());
             reserveDTOToReturn.setClient_id(reserve.getClient().getId());
@@ -93,7 +93,7 @@ public class ReserveService implements IReserveService {
             return reserveDTO;
 
         } else {
-            throw new ResourceNotFoundException("No se encontró el turno con id: " + id);
+            throw new ResourceNotFoundException("No se encontró la reserva con id: " + id);
         }
 
 
@@ -104,7 +104,7 @@ public class ReserveService implements IReserveService {
     @Override
     public ReserveDTO update(ReserveDTO reserveDTO) throws Exception {
 
-        //chequeo que el turno a actualizar exista
+        //chequeo que la reserva a actualizar exista
         if(reserveRepository.findById(reserveDTO.getId()).isPresent()) {
 
             //buscar la entidad en la BD
@@ -118,11 +118,11 @@ public class ReserveService implements IReserveService {
             Product productEntity = new Product();
             productEntity.setId(reserveDTO.getProduct_id());
 
-            //seteamos el paciente y el producto a nuestra entidad turno
+            //seteamos el paciente y el producto a nuestra entidad reserva
             reserveEntity.get().setClient(clientEntity);
             reserveEntity.get().setProduct(productEntity);
 
-            //convertir el string del turnoDto que es la fecha a LocalDate
+            //convertir el string dla reservaDto que es la fecha a LocalDate
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate date = LocalDate.parse(reserveDTO.getDate(), formatter);
 
@@ -141,7 +141,7 @@ public class ReserveService implements IReserveService {
 
             return reserveDTOToReturn;
         } else {
-            throw new Exception("No se pudo actualizar el turno");
+            throw new Exception("No se pudo actualizar la reserva");
         }
 
     }
@@ -153,7 +153,7 @@ public class ReserveService implements IReserveService {
 
         Optional<ReserveDTO> reserveDTO;
         if (reserveToLookFor.isPresent()) {
-            //recuperar el turno que se encontró y lo vamos a guardar en una variable turno
+            //recuperar la reserva que se encontró y lo vamos a guardar en una variable reserva
             Reserve reserve =  reserveToLookFor.get();
 
             //vamos a devolver un dto
@@ -170,7 +170,7 @@ public class ReserveService implements IReserveService {
 
         } else {
             //vamos a lanzar la exception
-            throw new ResourceNotFoundException("No se encontró el turno con id: " + id);
+            throw new ResourceNotFoundException("No se encontró la reserva con id: " + id);
         }
 
     }
@@ -180,11 +180,11 @@ public class ReserveService implements IReserveService {
         //vamos a traernos las entidades de la BD y la vamos a guardar en una lista
         List<Reserve> reserves = reserveRepository.findAll();
 
-        //vamos a crear una lista vacía de turnos DTO
+        //vamos a crear una lista vacía de reservas DTO
         List<ReserveDTO> reserveDTOS = new ArrayList<>();
 
-        //recorremos la lista de entidades de turno para luego
-        //guardarlas en la lista de turnos DTO
+        //recorremos la lista de entidades de reserva para luego
+        //guardarlas en la lista de reservas DTO
         for (Reserve reserve: reserves) {
             reserveDTOS.add(new ReserveDTO(reserve.getId(),
                     reserve.getClient().getId(), reserve.getProduct().getId(),

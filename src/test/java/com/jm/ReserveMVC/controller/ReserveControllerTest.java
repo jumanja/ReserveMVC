@@ -75,7 +75,7 @@ class ReserveControllerTest {
     @Test
     public void ListAllReserveTest() throws Exception {
         MvcResult response = mockMvc.perform(MockMvcRequestBuilders
-                .get("/turnos").accept(MediaType.APPLICATION_JSON))
+                .get("/reservas").accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();

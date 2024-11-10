@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/turnos")
+@RequestMapping("/reservas")
 public class ReserveController {
 
     private IReserveService reserveService;
@@ -31,7 +31,7 @@ public class ReserveController {
         this.clientService = clientService;
     }
 
-    //este endpoint consulta todos los turnos
+    //este endpoint consulta todos los reservas
     @GetMapping
     public ResponseEntity<List<ReserveDTO>> findAll() {
         return ResponseEntity.ok(reserveService.findAll());
@@ -44,7 +44,7 @@ public class ReserveController {
         //chequeamos que existan el producto y el paciente
         if (productService.findById(reserveDTO.getProduct_id()).isPresent()
                 && clientService.findById(reserveDTO.getClient_id()).isPresent()) {
-            //seteamos al ResponseEntity con el código 200 y le agregamos el turno como cuerpo de la respuesta
+            //seteamos al ResponseEntity con el código 200 y le agregamos la reserva como cuerpo de la respuesta
             response = ResponseEntity.ok(reserveService.save(reserveDTO));
 
         } else {
@@ -73,7 +73,7 @@ public class ReserveController {
         if (productService.findById(reserveDTO.getProduct_id()).isPresent()
                 && clientService.findById(reserveDTO.getClient_id()).isPresent()) {
             //ambos existen en la DB
-            //seteamos al ResponseEntity con el código 200 y le agregamos el turno dto como cuerpo de la respuesta
+            //seteamos al ResponseEntity con el código 200 y le agregamos la reserva dto como cuerpo de la respuesta
             response = ResponseEntity.ok(reserveService.update(reserveDTO));
 
         } else {
@@ -87,7 +87,7 @@ public class ReserveController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) throws ResourceNotFoundException {
         reserveService.delete(id);
-        return ResponseEntity.ok("Se eliminó el turno con id: " + id);
+        return ResponseEntity.ok("Se eliminó la reserva con id: " + id);
     }
 
 
